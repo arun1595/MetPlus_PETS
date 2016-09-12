@@ -48,7 +48,7 @@ class Job < ActiveRecord::Base
 
     # Download resume from the Cruncher
     resume_id = job_seeker.resumes[0].id
-    temp_file = ResumeCruncher.download_resume(resume_id)
+    #temp_file = ResumeCruncher.download_resume(resume_id)
     job_application = last_application_by_job_seeker(job_seeker)
 
     # Send mail to the company with the attached resume
@@ -56,10 +56,10 @@ class Job < ActiveRecord::Base
                      perform_later(Event::EVT_TYPE[:JS_APPLY],
                      self.company,
                       nil, { application: job_application,
-                      resume_file_path: temp_file.path })
+                      resume_id: resume_id })
 
     # Remove the temp file
-    temp_file.unlink
+    #temp_file.unlink
 
     last_application_by_job_seeker(job_seeker)
   end
